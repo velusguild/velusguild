@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적대 관리</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #list { margin-top: 20px; }
+        .entry { margin: 5px; padding: 5px; border: 1px solid #ddd; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <h2>적대 추가하기</h2>
+    <input type="text" id="nameInput" placeholder="이름 입력">
+    <input type="text" id="reasonInput" placeholder="사유">
+    <button onclick="addEntry()">추가</button>
+    
+    <h3>적대 리스트</h3>
+    <div id="list"></div>
+    
+    <script>
+        let entries = [];
+
+        function addEntry() {
+            let name = document.getElementById('nameInput').value;
+            let reason = document.getElementById('reasonInput').value;
+            if (name.trim() === "") {
+                alert("이름을 입력하세요.");
+                return;
+            }
+            entries.push({ name, reason });
+            updateList();
+            document.getElementById('nameInput').value = "";
+            document.getElementById('reasonInput').value = "";
+        }
+
+        function removeEntry(index) {
+            entries.splice(index, 1);
+            updateList();
+        }
+
+        function updateList() {
+            let listDiv = document.getElementById('list');
+            listDiv.innerHTML = "";
+            entries.forEach((entry, index) => {
+                let div = document.createElement("div");
+                div.className = "entry";
+                div.innerHTML = `<span>${entry.name} - ${entry.reason}</span> <button onclick="removeEntry(${index})">제거</button>`;
+                listDiv.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
